@@ -38,7 +38,7 @@
 #define	OUT_FOLDER				"/tmp/print-unit-test/"
 #define LOCK_FILE				".source-generator.lock"
 #define NO_FLAG					"\x98"
-#define PRINTF_FLAGS_BASIC		NO_FLAG"#0-+ "
+#define PRINTF_FLAGS_BASIC		NO_FLAG"0-"
 #define NOALIGN					INT_MIN
 #define NOPADD					NOALIGN
 #define PRINTF_FLAGS_ADVANCED	""

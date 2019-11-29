@@ -6,7 +6,7 @@
 /*   By: alelievr <alelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/08 16:04:18 by alelievr          #+#    #+#             */
-/*   Updated: 2018/02/06 13:23:20 by alelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 08:35:41 by hsmits        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ static const char *	randomStrings[] = {
 
 static int		generateRandomInts(long long *args, int n)
 {
-	intmax_t	r;
+	int			r;
 	int			ret = 1;
 
 	*args++ = 0;
 	for (int i = 0; i < n; i++)
 	{
-		r = ((intmax_t)rand() * (intmax_t)rand());
+		r = ((int)rand() * (int)rand());
 		*args++ = LONGIFY(r);
 		ret++;
 	}
