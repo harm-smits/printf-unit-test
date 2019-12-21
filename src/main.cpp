@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alelievr <alelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hsmits <hsmits@student.codam.nl>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created  2016/12/23 17:42:25 by alelievr          #+#    #+#             */
-//   Updated: 2019/11/19 15:03:57 by juligonz         ###   ########.fr       //
+/*   Updated: 2019/12/21 10:00:28 by hsmits           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,23 +335,35 @@ static void	run_tests(int (*ft_printf)(const char *, ...), const char *convs, co
 		disable_timeout = true;
 		auto formats = generateTestFormats(*convs);
 		disable_timeout = false;
-		for (auto fmt : formats)
-		{
+		for (auto fmt : formats) {
 			index++;
 			current_index = index;
-			argc = generateRandArgs(*convs, fmt.c_str(), args);
-			g_current_test_index = -1;
-			setjmp(jmp_next_test);
-			while (++g_current_test_index < argc)
+			if (*convs == '%')
 			{
-				int convIndex = (int)*convs;
-				if (*convs == 'c' && fmt.find('l') != std::string::npos)
-					convIndex = 'C';
-				if (*convs == 's' && fmt.find('l') != std::string::npos)
-					convIndex = 'S';
-				((void (*)(const char *, int (*)(const char *, ...), int[2], ...))runTestFuncs[convIndex])(fmt.c_str(), ft_printf, fd, args[g_current_test_index]);
-				total_test_count++;
-				test_count++;
+				g_current_test_index = -1;
+				setjmp(jmp_next_test);
+				while (++g_current_test_index < 1)
+				{
+					int convIndex = (int) *convs;
+					((void (*)(const char *, int (*)(const char *, ...), int[2], ...)) runTestFuncs[convIndex])(fmt.c_str(), ft_printf, fd, 0);
+					total_test_count++;
+					test_count++;
+				}
+			}
+			else {
+				argc = generateRandArgs(*convs, fmt.c_str(), args);
+				g_current_test_index = -1;
+				setjmp(jmp_next_test);
+				while (++g_current_test_index < argc) {
+					int convIndex = (int) *convs;
+					if (*convs == 'c' && fmt.find('l') != std::string::npos)
+						convIndex = 'C';
+					if (*convs == 's' && fmt.find('l') != std::string::npos)
+						convIndex = 'S';
+					((void (*)(const char *, int (*)(const char *, ...), int[2], ...)) runTestFuncs[convIndex])(fmt.c_str(), ft_printf, fd, args[g_current_test_index]);
+					total_test_count++;
+					test_count++;
+				}
 			}
 		}
 		if (failed_tests == old_failed_tests)
@@ -418,6 +430,12 @@ static void	options(int ac, char **av)
 		}
 }
 
+static void runTest_percent(const char *fmt, int (*ft_printf)(const char *f, ...), int fd[2], char c) \
+{
+	(void)c;
+	runTestSpec<char>(fmt, ft_printf, fd, 0);
+}
+
 static void InitRunTest()
 {
 	runTestFuncs[(int)'c'] = (void *)runTest_char;
@@ -431,24 +449,25 @@ static void InitRunTest()
 	runTestFuncs[(int)'f'] = (void *)runTest_double;
 	runTestFuncs[(int)'g'] = (void *)runTest_double;
 	runTestFuncs[(int)'e'] = (void *)runTest_double;
+	runTestFuncs[(int)'%'] = (void *)runTest_percent;
 
 	(void)runTest_long;
 	(void)runTest_wchar_t;
 	(void)runTest_wstring;
-//	runTestFuncs[(int)'O'] = (void *)runTest_long;
-//	runTestFuncs[(int)'D'] = (void *)runTest_long;
-//	runTestFuncs[(int)'U'] = (void *)runTest_long;
+	runTestFuncs[(int)'O'] = (void *)runTest_long;
+	runTestFuncs[(int)'D'] = (void *)runTest_long;
+	runTestFuncs[(int)'U'] = (void *)runTest_long;
 
 
-//	runTestFuncs[(int)'E'] = (void *)runTest_double;
-//	runTestFuncs[(int)'F'] = (void *)runTest_double;
-//	runTestFuncs[(int)'G'] = (void *)runTest_double;
-//	runTestFuncs[(int)'a'] = (void *)runTest_double;
-//	runTestFuncs[(int)'A'] = (void *)runTest_double;
+	runTestFuncs[(int)'E'] = (void *)runTest_double;
+	runTestFuncs[(int)'F'] = (void *)runTest_double;
+	runTestFuncs[(int)'G'] = (void *)runTest_double;
+	runTestFuncs[(int)'a'] = (void *)runTest_double;
+	runTestFuncs[(int)'A'] = (void *)runTest_double;
 
-//	runTestFuncs[(int)'C'] = (void *)runTest_wchar_t;
-//	runTestFuncs[(int)'S'] = (void *)runTest_wstring;
-//	runTestFuncs[(int)'o'] = (void *)runTest_int;
+	runTestFuncs[(int)'C'] = (void *)runTest_wchar_t;
+	runTestFuncs[(int)'S'] = (void *)runTest_wstring;
+	runTestFuncs[(int)'o'] = (void *)runTest_int;
 }
 
 int			main(int ac, char **av)

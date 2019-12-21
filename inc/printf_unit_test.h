@@ -34,8 +34,8 @@ typedef void *		ptr;
 //#define SUPPORTED_CONVERTERS	"idDoOuUxXcCsSpaAeEfFgG"
 //#define DEFAULT_CONVERTERS		"idDoOuUxXcCsSp"
 
-#define SUPPORTED_CONVERTERS	"cspdiuxX"
-#define DEFAULT_CONVERTERS		"cspdiuxXfge"
+#define SUPPORTED_CONVERTERS	"cspdiuxX%"
+#define DEFAULT_CONVERTERS		"cspdiuxXfge%"
 #define TEST_LIB_SO				"./printf-tests.so"
 #define TEST_LIB_FLOATS_SO		"./printf-tests-floats.so"
 #define FTPRINTF_LIB_SO			"./libftprintf.so"

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   random_args.c                                      :+:      :+:    :+:   */
+/*   random_args.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alelievr <alelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hsmits <hsmits@student.codam.nl>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/08 16:04:18 by alelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 08:35:41 by hsmits        ########   odam.nl         */
+/*   Updated: 2019/12/21 09:43:58 by hsmits           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,8 @@ int				generateRandArgs(char conv, const char *mods, long long *args)
 		return generateRandomChars(args, n_rand_args);
 	if (conv == 'p')
 		return generateRandomPointers(args, n_rand_args);
+	if (conv == '%')
+		return 1000;
 	return (0);
 }
 
